@@ -1,31 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
 <!-- resources/icons/hicolor/scalable/apps/org.noctua.Noctua.svg -->
+
 <!-- Stylized owl icon for Noctua, with one eye as a document/magnifying glass. -->
 
-<svg width="256" height="256" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="noctua.svg"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.9296875"
+     inkscape:cx="127.82933"
+     inkscape:cy="127.82933"
+     inkscape:window-width="1920"
+     inkscape:window-height="1019"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
   <!-- Background circle (optional, for contrast) -->
-  <circle cx="12" cy="12" r="10" fill="#2a2a4a" opacity="0.8"/>
-
+  <path
+     id="circle1"
+     style="opacity:0.8;fill:#2a2a4a"
+     d="M 22.256,18.048 C 22.256,23.570847 17.522847,22 12,22 6.4771525,22 1.776,13.622848 1.776,8.1 1.776,2.5771526 6.4771525,2 12,2 17.522847,2 22.256,12.525153 22.256,18.048 Z"
+     sodipodi:nodetypes="sssss" />
   <!-- Owl body (stylized) -->
-  <path d="M12 4C7 4 3 8 3 13v6l4-2 4 2 4-2 4 2v-6c0-5-4-9-9-9z"
-        fill="#2a2a4a" stroke="#e0e0e0" stroke-width="0.3"/>
-
+  <path
+     d="m 12.203594,3.8864032 c -4.9876387,0 -8.9777496,4.9846329 -8.9777496,11.2154238 v 7.47695 l 3.9901109,-2.492317 3.9901107,2.492317 3.990111,-2.492317 3.990111,2.492317 v -7.47695 c 0,-6.2307909 -3.990111,-11.2154238 -8.97775,-11.2154238 z"
+     fill="#2a2a4a"
+     stroke="#e0e0e0"
+     stroke-width="0.33448"
+     id="path1" />
   <!-- Left eye (normal, small) -->
-  <circle cx="8" cy="10" r="1.8" fill="#ffd700" stroke="#333" stroke-width="0.2"/>
-  <circle cx="8" cy="10" r="0.8" fill="#333"/>
-
+  <circle
+     cx="8"
+     cy="10"
+     r="1.8"
+     fill="#ffd700"
+     stroke="#333"
+     stroke-width="0.2"
+     id="circle2" />
+  <circle
+     cx="8"
+     cy="10"
+     r="0.8"
+     fill="#333"
+     id="circle3" />
   <!-- Right eye (document/magnifying glass, large) -->
-  <rect x="14" y="8" width="3" height="4" fill="white" rx="0.5" stroke="#333" stroke-width="0.2"/>
-  <path d="M15.5 9.5h-2v1h2v-1z" fill="#333" opacity="0.3"/> <!-- Document lines -->
-  <path d="M15.5 11.5h-2v1h2v-1z" fill="#333" opacity="0.3"/>
-  <path d="M15.5 10.5h-1v1h1v-1z" fill="#333" opacity="0.3"/>
-  <path d="M13 8.5a2.5 2.5 0 0 1 5 0" stroke="#333" stroke-width="0.3" fill="none"/> <!-- Magnifying glass handle -->
-
+  <rect
+     x="-11.8709"
+     y="11.383166"
+     width="5.3418002"
+     height="7.0458007"
+     fill="#ffffff"
+     rx="0.89030004"
+     stroke="#333333"
+     stroke-width="0.3542"
+     id="rect3"
+     transform="rotate(-90)" />
+  <!-- Document lines -->
+  <path
+     d="m 4.956066,10.164 a 2.5,2.5 0 0 1 5,0"
+     stroke="#333333"
+     stroke-width="0.3"
+     fill="none"
+     id="path6" />
+  <!-- Magnifying glass handle -->
   <!-- Beak (arrow-shaped) -->
-  <path d="M12 14l-1 1.5M12 14l1 1.5" stroke="#ffd700" stroke-width="0.5" fill="none"/>
-
+  <path
+     d="m 11.108013,15.650333 -1.6240459,3.319334 m 1.6240459,-3.319334 1.624046,3.319334"
+     stroke="#ffd700"
+     stroke-width="0.947871"
+     fill="none"
+     id="path7" />
   <!-- Feathers (wisdom symbols) -->
-  <path d="M8 5c-1 0-2 1-2 2" stroke="#e0e0e0" stroke-width="0.3" fill="none"/>
-  <path d="M10 4c-1 1-1 2 0 3" stroke="#e0e0e0" stroke-width="0.3" fill="none"/>
-  <path d="M16 4c1 1 1 2 0 3" stroke="#e0e0e0" stroke-width="0.3" fill="none"/>
+  <path
+     d="m 12.979,6.1 c -1,0 -2,1 -2,2"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path8" />
+  <path
+     d="m 6.793934,8.5 c -1,1 -1,2 0,3"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path9" />
+  <path
+     d="m 9.206066,8.5 c 1,1 1,2 0,3"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path10" />
+  <path
+     d="m 16.787528,12.307066 c 1,0 2,-1 2,-2"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path11" />
+  <path
+     d="m 12.979,12.307066 c -1,0 -2,-1 -2,-2"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path12" />
+  <path
+     d="m 16.787528,6.1 c 1,0 2,1 2,2"
+     stroke="#e0e0e0"
+     stroke-width="0.3"
+     fill="none"
+     id="path13" />
 </svg>
