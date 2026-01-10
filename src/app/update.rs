@@ -17,14 +17,26 @@ pub fn update(model: &mut AppModel, msg: AppMessage) {
         // ===== File / navigation ==========================================================
         AppMessage::OpenPath(path) => {
             document::file::open_single_file(model, &path);
+            // Refresh metadata if panel is visible.
+            if model.show_right_panel {
+                refresh_metadata(model);
+            }
         }
 
         AppMessage::NextDocument => {
             document::file::navigate_next(model);
+            // Refresh metadata if panel is visible.
+            if model.show_right_panel {
+                refresh_metadata(model);
+            }
         }
 
         AppMessage::PrevDocument => {
             document::file::navigate_prev(model);
+            // Refresh metadata if panel is visible.
+            if model.show_right_panel {
+                refresh_metadata(model);
+            }
         }
 
         // ===== Panels =====================================================================
@@ -33,6 +45,10 @@ pub fn update(model: &mut AppModel, msg: AppMessage) {
         }
         AppMessage::ToggleRightPanel => {
             model.show_right_panel = !model.show_right_panel;
+            // Load metadata lazily when panel becomes visible.
+            if model.show_right_panel && model.metadata.is_none() {
+                refresh_metadata(model);
+            }
         }
 
         // ===== View / zoom ===============================================================
@@ -102,6 +118,11 @@ pub fn update(model: &mut AppModel, msg: AppMessage) {
             }
         }
 
+        // ===== Metadata ==================================================================
+        AppMessage::RefreshMetadata => {
+            refresh_metadata(model);
+        }
+
         // ===== Error handling ============================================================
         AppMessage::ShowError(msg) => {
             model.set_error(msg);
@@ -138,4 +159,9 @@ fn current_zoom(model: &AppModel) -> f32 {
         ViewMode::ActualSize => 1.0,
         ViewMode::Custom(z) => z,
     }
+}
+
+/// Refresh metadata from the current document.
+fn refresh_metadata(model: &mut AppModel) {
+    model.metadata = model.document.as_ref().map(|doc| doc.extract_meta());
 }

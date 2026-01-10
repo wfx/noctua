@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // src/app/view/canvas.rs
 //
-// Center canvas for displaying the current document.
-
+/// Renders the center canvas area with the current document.
+//
 use cosmic::iced::{Alignment, Length};
 use cosmic::widget::{container, image, text, Column, Row};
 use cosmic::Element;

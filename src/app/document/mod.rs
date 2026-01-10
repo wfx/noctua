@@ -100,4 +100,13 @@ impl DocumentContent {
             DocumentContent::Portable(doc) => doc.dimensions(),
         }
     }
+    /// Extract metadata from the document.
+    /// This may involve file I/O for EXIF data, so call lazily.
+    pub fn extract_meta(&self) -> meta::DocumentMeta {
+        match self {
+            DocumentContent::Raster(doc) => doc.extract_meta(),
+            DocumentContent::Vector(doc) => doc.extract_meta(),
+            DocumentContent::Portable(doc) => doc.extract_meta(),
+        }
+    }
 }

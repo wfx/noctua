@@ -20,6 +20,9 @@ pub enum AppMessage {
     NextDocument,
     PrevDocument,
 
+    /// Refresh metadata (e.g., when panel becomes visible or document changes).
+    RefreshMetadata,
+
     /// Basic view / panel toggles.
     ToggleLeftPanel,
     ToggleRightPanel,

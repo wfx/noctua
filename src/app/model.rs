@@ -6,6 +6,8 @@
 use std::path::PathBuf;
 
 use crate::app::document::DocumentContent;
+use crate::app::document::meta::DocumentMeta;
+
 use crate::config::AppConfig;
 
 /// How the document is currently fitted into the window.
@@ -51,6 +53,10 @@ pub struct AppModel {
     /// Currently opened document (raster/vector/portable).
     pub document: Option<DocumentContent>,
 
+    /// Cached metadata for the current document.
+    /// Loaded lazily when the right panel is opened.
+    pub metadata: Option<DocumentMeta>,
+
     /// Path of the currently opened document, if any.
     pub current_path: Option<PathBuf>,
 
@@ -84,6 +90,7 @@ impl AppModel {
         Self {
             config,
             document: None,
+            metadata: None,
             current_path: None,
             folder_entries: Vec::new(),
             current_index: None,

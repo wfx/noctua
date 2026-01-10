@@ -91,6 +91,8 @@ fn load_document_into_model(model: &mut AppModel, path: &Path) {
     match open_document(path.to_path_buf()) {
         Ok(doc) => {
             model.document = Some(doc);
+            // Reset cached metadata so it gets reloaded when panel is visible.
+            model.metadata = None;
             model.current_path = Some(path.to_path_buf());
             model.clear_error();
 
@@ -181,4 +183,18 @@ pub fn navigate_prev(model: &mut AppModel) {
         model.current_index = Some(new_index);
         load_document_into_model(model, &path);
     }
+}
+// ---------------------------------------------------------------------------
+// File metadata helpers
+// ---------------------------------------------------------------------------
+
+/// Retrieve the file size in bytes. Returns 0 if the file cannot be accessed.
+pub fn file_size(path: &Path) -> u64 {
+    fs::metadata(path).map(|m| m.len()).unwrap_or(0)
+}
+
+/// Read raw bytes from a file for metadata extraction (e.g., EXIF).
+/// Returns None if the file cannot be read.
+pub fn read_file_bytes(path: &Path) -> Option<Vec<u8>> {
+    fs::read(path).ok()
 }

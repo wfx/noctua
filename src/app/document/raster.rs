@@ -62,4 +62,11 @@ impl RasterDocument {
             ))
         }
     }
+    /// Extract metadata for this raster document.
+    pub fn extract_meta(&self) -> super::meta::DocumentMeta {
+        let path = self.path.as_deref().unwrap_or(std::path::Path::new(""));
+        let (width, height) = self.dimensions();
+
+        super::meta::build_raster_meta(path, &self.image, width, height)
+    }
 }

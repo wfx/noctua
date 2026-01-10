@@ -45,4 +45,10 @@ impl VectorDocument {
         // TODO: re-render SVG to DynamicImage and rebuild handle.
         // Update self.width and self.height accordingly.
     }
+    /// Extract metadata for this vector document.
+    pub fn extract_meta(&self) -> super::meta::DocumentMeta {
+        let (width, height) = self.dimensions();
+
+        super::meta::build_vector_meta(&self.path, width, height)
+    }
 }

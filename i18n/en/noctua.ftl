@@ -37,3 +37,25 @@ scale = Scale
 ## Error messages
 error-failed-to-open = Failed to open “{ $path }”.
 error-unsupported-format = Unsupported file format.
+
+# Metadata panel
+metadata = Metadata
+file-name = File
+format = Format
+resolution = Resolution
+file-size = Size
+color-type = Color
+
+# EXIF data
+exif-data = EXIF Data
+camera = Camera
+date-taken = Date
+exposure = Exposure
+aperture = Aperture
+iso = ISO
+focal-length = Focal
+gps = GPS
+
+# States
+loading-metadata = Loading...
+no-document = No document

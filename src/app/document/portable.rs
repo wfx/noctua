@@ -62,4 +62,10 @@ impl PortableDocument {
         // self.rendered = render_page_to_dynamic(...);
         // self.refresh_handle();
     }
+    /// Extract metadata for this portable document.
+    pub fn extract_meta(&self) -> super::meta::DocumentMeta {
+        let (width, height) = self.dimensions();
+
+        super::meta::build_portable_meta(&self.path, width, height, self.page_count)
+    }
 }
