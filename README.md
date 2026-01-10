@@ -2,7 +2,7 @@
 
 An image viewer application for the COSMIC™ desktop
 
-![Screenshot](docs/images/screenshots.png)
+![Screenshot](docs/images/screenshot.png)
 
 ## Keyboard Shortcuts
 
