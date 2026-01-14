@@ -75,9 +75,19 @@ impl cosmic::Application for Noctua {
 
         let mut model = AppModel::new(config.clone());
 
-        // Use CLI arguments from `flags` to open initial file or folder.
         let Flags::Args(args) = flags;
-        if let Some(path) = args.file {
+
+        // Determine initial path: CLI argument takes priority.
+        // Fall back to configured default directory only if it exists.
+        let initial_path = args.file.or_else(|| {
+            config
+                .default_image_dir
+                .as_ref()
+                .filter(|p| p.exists())
+                .cloned()
+        });
+
+        if let Some(path) = initial_path {
             document::file::open_initial_path(&mut model, path);
         }
 
@@ -107,7 +117,7 @@ impl cosmic::Application for Noctua {
 
     fn update(&mut self, message: Self::Message) -> Task<Action<Self::Message>> {
         match &message {
-            // Handle nav bar toggle.
+            // Handle nav bar toggle. I think this is ugly but it works.
             AppMessage::ToggleNavBar => {
                 self.config.nav_bar_visible = !self.config.nav_bar_visible;
                 self.core.nav_bar_set_toggled(self.config.nav_bar_visible);
@@ -216,7 +226,7 @@ fn handle_key_press(key: Key, modifiers: Modifiers) -> Option<AppMessage> {
         }
 
         // Zoom.
-        Key::Character("+") | Key::Character("=") => Some(ZoomIn),
+        Key::Character("+" |"=") => Some(ZoomIn),
         Key::Character("-") => Some(ZoomOut),
         Key::Character("1") => Some(ZoomReset),
         Key::Character(ch) if ch.eq_ignore_ascii_case("f") => Some(ZoomFit),

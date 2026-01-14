@@ -21,8 +21,7 @@ pub struct AppConfig {
 impl Default for AppConfig {
     fn default() -> Self {
         Self {
-            // TODO: Use xdg dir for picture
-            default_image_dir: Some(PathBuf::from("~/Pictures")),
+            default_image_dir: dirs::picture_dir().or_else(dirs::home_dir),
             nav_bar_visible: false,
             context_drawer_visible: false,
         }

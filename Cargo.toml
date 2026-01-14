@@ -38,6 +38,7 @@ i18n-embed-fl = "0.10"
 # Misc utilities
 open = "5.3.2"
 rust-embed = "8.8.0"
+dirs = "5.0"
 image = "0.25.9"
 clap = { version = "4.5.54", features = ["derive"] }
 env_logger = "0.11.8"
