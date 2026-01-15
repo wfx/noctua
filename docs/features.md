@@ -14,20 +14,22 @@ This document describes the implemented and planned features of Noctua, a modern
   - Real-time transformation preview
   - EXIF metadata extraction
 
-#### Vector Graphics (Implemented)
+#### Vector Graphics (Planned)
 - **Formats**: SVG
-- **Capabilities**:
+- **Status**: Code structure prepared, but rendering not yet implemented
+- **Planned capabilities**:
   - High-quality rendering via `resvg`
   - Scalable display without quality loss
   - Metadata extraction
-  - Note: Transformations not yet implemented for vector documents
+  - Transformations (rotate, flip)
 
-#### Portable Documents (Implemented)
+#### Portable Documents (Planned)
 - **Formats**: PDF
-- **Capabilities**:
+- **Status**: Code structure prepared, but rendering not yet implemented
+- **Planned capabilities**:
   - First page rendering
-  - Basic transformations on rendered page
-  - Note: Multi-page navigation not yet implemented
+  - Multi-page navigation
+  - Basic transformations on rendered pages
 
 ### Navigation
 
@@ -140,16 +142,23 @@ Full keyboard-driven workflow:
 
 ### High Priority
 
+#### SVG Support
+- Implement proper SVG parsing and rendering
+- Integration with `resvg` library
+- Scalable vector display
+- Transformation support
+
+#### PDF Support
+- Implement PDF rendering backend
+- First page display
+- Multi-page navigation
+- Page thumbnails
+
 #### File Operations
 - File dialog integration (OpenPath message prepared)
 - Save transformed images
 - Copy/Move/Delete operations
 - Drag-and-drop support
-
-#### Multi-page Documents
-- PDF page navigation
-- Multi-page TIFF support
-- Page thumbnails
 
 #### Error Handling
 - User-friendly error messages (ShowError/ClearError prepared)
@@ -158,10 +167,9 @@ Full keyboard-driven workflow:
 
 ### Medium Priority
 
-#### Vector Document Transformations
-- Rotate SVG files
-- Flip SVG files
-- Transform preservation on save
+#### Multi-format TIFF Support
+- Multi-page TIFF navigation
+- Page thumbnails
 
 #### Enhanced Navigation
 - Thumbnail strip
