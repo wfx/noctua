@@ -33,21 +33,21 @@ This document describes the implemented and planned features of Noctua, a modern
 
 ### Navigation
 
-#### Folder Navigation
+#### Folder Navigation (Implemented)
 - **Automatic folder scanning**: When opening an image, all supported images in the same folder are indexed
 - **Quick navigation**:
   - Arrow keys (Left/Right) to navigate between images
   - Footer displays current position (e.g., "3 / 42")
   - Seamless transitions between images
 
-#### File Opening
+#### File Opening (Implemented)
 - **Command-line arguments**: Open images directly from terminal
 - **Default directory**: Configurable starting location (defaults to XDG Pictures)
 - File dialog not yet implemented
 
 ### View Controls
 
-#### Zoom
+#### Zoom (Implemented)
 - **Mouse wheel**: Zoom in/out centered on cursor position
 - **Keyboard shortcuts**:
   - `+` or `=` - Zoom in
@@ -60,20 +60,20 @@ This document describes the implemented and planned features of Noctua, a modern
   - **Custom**: Any zoom level from 10% to 2000%
 - **Footer display**: Real-time zoom percentage or "Fit" indicator
 
-#### Pan
+#### Pan (Implemented)
 - **Mouse drag**: Click and drag to pan around zoomed images
 - **Keyboard shortcuts**: `Ctrl + Arrow Keys` for precise panning
 - **Smart boundaries**: Pan is automatically limited to image boundaries
 - **Auto-center**: Images smaller than viewport are automatically centered
 
-#### Bidirectional State Sync
+#### Bidirectional State Sync (Implemented)
 - Mouse interactions update keyboard/button controls
 - Keyboard/button controls update mouse interaction state
 - No conflicts between input methods
 
 ### Transformations
 
-#### Image Manipulation
+#### Image Manipulation (Implemented)
 - **Rotate**:
   - `r` - Rotate 90° clockwise
   - `Shift + r` - Rotate 90° counter-clockwise
@@ -87,7 +87,7 @@ This document describes the implemented and planned features of Noctua, a modern
 
 ### User Interface
 
-#### COSMIC Integration
+#### COSMIC Integration (Implemented)
 - **Native COSMIC design**: Follows COSMIC desktop design language
 - **Theme support**: Automatically adapts to system light/dark theme
 - **Header toolbar**:
@@ -100,7 +100,7 @@ This document describes the implemented and planned features of Noctua, a modern
   - Image dimensions
   - Navigation position counter
 
-#### Panels
+#### Panels (Implemented)
 - **Properties panel**:
   - Image metadata display
   - File information
@@ -109,7 +109,7 @@ This document describes the implemented and planned features of Noctua, a modern
   - Toggle with `n` key or toolbar button
   - Content not yet implemented
 
-#### Keyboard Shortcuts
+#### Keyboard Shortcuts (Implemented)
 Full keyboard-driven workflow:
 - Navigation: `←` `→`
 - Zoom: `+` `-` `1` `f`
@@ -119,20 +119,20 @@ Full keyboard-driven workflow:
 
 ### Configuration
 
-#### Persistent Settings
+#### Persistent Settings (Implemented)
 - **Panel states**: Remembers which panels were open
 - **Default directory**: Customizable starting location
 - **Settings location**: `~/.config/noctua/config.toml`
 
 ### Technical Features
 
-#### Architecture
+#### Architecture (Implemented)
 - **Clean separation**: View layer agnostic to document format
 - **Polymorphic documents**: Single `DocumentContent` interface for all formats
 - **Efficient rendering**: Leverages COSMIC's iced renderer
 - **Type-safe transformations**: Compile-time guarantees for image operations
 
-#### Performance
+#### Performance (Implemented)
 - **Lazy loading**: Images loaded on-demand
 - **Efficient folder scanning**: Fast directory traversal
 - **Minimal memory footprint**: Only active document kept in memory
