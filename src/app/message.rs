@@ -12,6 +12,7 @@ use crate::app::ContextPage;
 pub enum AppMessage {
     // === File / Navigation ===
     /// Open a file at the given path.
+    #[allow(dead_code)]
     OpenPath(PathBuf),
     /// Navigate to the next document in folder.
     NextDocument,
@@ -66,14 +67,18 @@ pub enum AppMessage {
 
     // === Metadata ===
     /// Refresh metadata from the current document.
+    #[allow(dead_code)]
     RefreshMetadata,
 
     // === Errors ===
     /// Display an error message.
+    #[allow(dead_code)]
     ShowError(String),
     /// Clear the current error.
+    #[allow(dead_code)]
     ClearError,
 
     /// Fallback for unhandled or no-op cases.
+    #[allow(dead_code)]
     NoOp,
 }
