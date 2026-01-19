@@ -27,7 +27,7 @@ fn ensure_cache_dir() -> Option<PathBuf> {
 
 /// Generate a cache key from file path, modification time, and page number.
 /// Format: sha256(path + mtime + page)
-fn cache_key(file_path: &Path, page: u32) -> Option<String> {
+fn cache_key(file_path: &Path, page: usize) -> Option<String> {
     let metadata = fs::metadata(file_path).ok()?;
     let mtime = metadata
         .modified()
@@ -46,7 +46,7 @@ fn cache_key(file_path: &Path, page: u32) -> Option<String> {
 }
 
 /// Get the full path for a cached thumbnail.
-fn thumbnail_path(file_path: &Path, page: u32) -> Option<PathBuf> {
+fn thumbnail_path(file_path: &Path, page: usize) -> Option<PathBuf> {
     let dir = cache_dir()?;
     let key = cache_key(file_path, page)?;
     Some(dir.join(format!("{}.{}", key, THUMBNAIL_EXT)))
@@ -54,7 +54,7 @@ fn thumbnail_path(file_path: &Path, page: u32) -> Option<PathBuf> {
 
 /// Load a thumbnail from disk cache.
 /// Returns None if not cached or cache is invalid.
-pub fn load_thumbnail(file_path: &Path, page: u32) -> Option<ImageHandle> {
+pub fn load_thumbnail(file_path: &Path, page: usize) -> Option<ImageHandle> {
     let cache_path = thumbnail_path(file_path, page)?;
 
     log::debug!("Cache lookup: file={}, page={}", file_path.display(), page);
@@ -74,11 +74,11 @@ pub fn load_thumbnail(file_path: &Path, page: u32) -> Option<ImageHandle> {
         file_path.display(),
         page
     );
-    Some(super::create_image_handle(&img))
+    Some(super::create_image_handle_from_image(&img))
 }
 
 /// Save a thumbnail to disk cache.
-pub fn save_thumbnail(file_path: &Path, page: u32, image: &DynamicImage) -> Option<()> {
+pub fn save_thumbnail(file_path: &Path, page: usize, image: &DynamicImage) -> Option<()> {
     let dir = ensure_cache_dir()?;
     let key = cache_key(file_path, page)?;
     let cache_path = dir.join(format!("{}.{}", key, THUMBNAIL_EXT));
@@ -119,7 +119,8 @@ pub fn save_thumbnail(file_path: &Path, page: u32, image: &DynamicImage) -> Opti
 }
 
 /// Check if a thumbnail exists in cache.
-pub fn has_thumbnail(file_path: &Path, page: u32) -> bool {
+#[allow(dead_code)]
+pub fn has_thumbnail(file_path: &Path, page: usize) -> bool {
     thumbnail_path(file_path, page)
         .map(|p| p.exists())
         .unwrap_or(false)
@@ -128,10 +129,9 @@ pub fn has_thumbnail(file_path: &Path, page: u32) -> bool {
 /// Clear all cached thumbnails.
 #[allow(dead_code)]
 pub fn clear_cache() -> std::io::Result<()> {
-    if let Some(dir) = cache_dir() {
-        if dir.exists() {
+    if let Some(dir) = cache_dir()
+        && dir.exists() {
             fs::remove_dir_all(&dir)?;
         }
-    }
     Ok(())
 }

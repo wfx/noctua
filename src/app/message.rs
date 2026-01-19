@@ -14,8 +14,8 @@ pub enum AppMessage {
     OpenPath(PathBuf),
     NextDocument,
     PrevDocument,
-    GotoPage(u32),
-    GenerateThumbnailPage(u32),
+    GotoPage(usize),
+    GenerateThumbnailPage(usize),
 
     // Transformations.
     RotateCW,

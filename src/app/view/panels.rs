@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // src/app/view/panels.rs
 //
-// Panel content for COSMIC context drawer.
+// Properties panel content for COSMIC context drawer.
 
 use cosmic::iced::Length;
 use cosmic::widget::{button, column, divider, horizontal_space, icon, row, text};
@@ -10,8 +10,8 @@ use cosmic::Element;
 use crate::app::{AppMessage, AppModel};
 use crate::fl;
 
-/// Content for the right-side properties panel (context drawer).
-pub fn properties_panel(model: &AppModel) -> Element<'static, AppMessage> {
+/// Build the properties panel view.
+pub fn view(model: &AppModel) -> Element<'static, AppMessage> {
     let mut content = column::with_capacity(16).spacing(8);
 
     // Header with action icons

@@ -17,6 +17,9 @@ use cosmic::iced::{ContentFit, Element, Length, Pixels, Point, Radians, Rectangl
 
 use crate::constant::{OFFSET_EPSILON, SCALE_EPSILON};
 
+/// Callback type for notifying viewer state changes (scale, offset_x, offset_y).
+type StateChangeCallback<Message> = Box<dyn Fn(f32, f32, f32) -> Message>;
+
 /// A frame that displays an image with the ability to zoom in/out and pan.
 #[allow(missing_debug_implementations)]
 pub struct Viewer<Handle, Message> {
@@ -32,7 +35,7 @@ pub struct Viewer<Handle, Message> {
     /// Optional external state to override internal state (scale, offset)
     external_state: Option<(f32, Vector)>,
     /// Optional callback to notify state changes
-    on_state_change: Option<Box<dyn Fn(f32, f32, f32) -> Message>>,
+    on_state_change: Option<StateChangeCallback<Message>>,
 }
 
 impl<Handle, Message> Viewer<Handle, Message> {

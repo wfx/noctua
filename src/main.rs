@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // src/main.rs
+//
+// Application entry point.
 
 mod app;
 mod config;

@@ -3,19 +3,13 @@
 //
 // Application constants that should not be changed by the user.
 
-/// Rotation step in degrees (90 = quarter turn).
-pub const ROTATION_STEP: i16 = 90;
-
-/// Full rotation in degrees (for modulo calculation in angle normalization).
-pub const FULL_ROTATION: i16 = 360;
-
 /// Minutes per degree (GPS coordinate conversion: DMS to decimal degrees).
 pub const MINUTES_PER_DEGREE: f64 = 60.0;
 
 /// Seconds per degree (GPS coordinate conversion: DMS to decimal degrees).
 pub const SECONDS_PER_DEGREE: f64 = 3600.0;
 
-/// Minimum pixmap size for SVG rendering (prevents 0x0 images).
+/// Minimum pixmap size for SVG rendering (prevents zero-size pixmaps).
 pub const MIN_PIXMAP_SIZE: u32 = 1;
 
 /// Tolerance for scale comparisons (float precision in zoom synchronization).
@@ -24,17 +18,17 @@ pub const SCALE_EPSILON: f32 = 0.0001;
 /// Tolerance for offset comparisons (float precision in pan synchronization).
 pub const OFFSET_EPSILON: f32 = 0.01;
 
-/// Maximum thumbnail width in pixels (nav bar page thumbnails).
+/// Maximum width in pixels for page navigation thumbnails.
 pub const THUMBNAIL_MAX_WIDTH: f32 = 100.0;
 
-/// Thumbnail cache directory name.
+/// Cache directory name under ~/.cache/ for thumbnail storage.
 pub const CACHE_DIR: &str = "noctua";
 
-/// Thumbnail file extension.
+/// File extension for cached thumbnails.
 pub const THUMBNAIL_EXT: &str = "png";
 
-/// Default render scale for PDF pages.
-pub const PDF_RENDER_SCALE: f64 = 2.0;
+/// PDF page render quality multiplier (2.0 = double resolution for sharp display).
+pub const PDF_RENDER_QUALITY: f64 = 2.0;
 
-/// Thumbnail render scale (smaller for quick rendering).
-pub const PDF_THUMBNAIL_SCALE: f64 = 0.25;
+/// PDF thumbnail size multiplier (0.25 = 25% for fast preview generation).
+pub const PDF_THUMBNAIL_SIZE: f64 = 0.25;

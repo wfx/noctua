@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // src/i18n.rs
+//
+// Internationalization (i18n) support.
 
 use i18n_embed::{
     DefaultLocalizer, LanguageLoader, Localizer,

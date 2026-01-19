@@ -79,11 +79,10 @@ pub fn open_single_file(model: &mut AppModel, path: &Path) {
     load_document_into_model(model, path);
 
     // Refresh folder listing based on parent directory.
-    if model.document.is_some() {
-        if let Some(parent) = path.parent() {
+    if model.document.is_some()
+        && let Some(parent) = path.parent() {
             refresh_folder_entries(model, parent, path);
         }
-    }
 }
 
 /// Load a document into the model, resetting view state.

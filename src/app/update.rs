@@ -39,17 +39,16 @@ pub fn update(model: &mut AppModel, msg: &AppMessage, config: &AppConfig) -> Upd
         }
 
         AppMessage::GotoPage(page) => {
-            if let Some(doc) = &mut model.document {
-                if let Err(e) = doc.goto_page(*page) {
+            if let Some(doc) = &mut model.document
+                && let Err(e) = doc.go_to_page(*page) {
                     log::error!("Failed to navigate to page {}: {}", page, e);
                 }
-            }
         }
 
         // ---- Thumbnail generation -------------------------------------------------
         AppMessage::GenerateThumbnailPage(page) => {
-            if let Some(doc) = &mut model.document {
-                if let Some(next_page) = doc.generate_thumbnail_page(*page) {
+            if let Some(doc) = &mut model.document
+                && let Some(next_page) = doc.generate_thumbnail_page(*page) {
                     return UpdateResult::Task(Task::batch([
                         Task::future(async move {
                             Action::App(AppMessage::GenerateThumbnailPage(next_page))
@@ -57,7 +56,6 @@ pub fn update(model: &mut AppModel, msg: &AppMessage, config: &AppConfig) -> Upd
                         Task::done(Action::App(AppMessage::RefreshView)),
                     ]));
                 }
-            }
         }
 
         AppMessage::RefreshView => {

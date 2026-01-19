@@ -10,19 +10,19 @@ use std::path::PathBuf;
 #[derive(Debug, Clone, CosmicConfigEntry, PartialEq)]
 #[version = 1]
 pub struct AppConfig {
-    /// Optional default directory to open images from.
+    /// Default directory to open when browsing for documents.
     pub default_image_dir: Option<PathBuf>,
-    /// Whether the nav bar (left panel) is visible.
+    /// Show page navigation panel (left sidebar for multi-page documents).
     pub nav_bar_visible: bool,
-    /// Whether the context drawer (right panel) is visible.
+    /// Show properties panel (right sidebar with metadata).
     pub context_drawer_visible: bool,
-    /// Scale step factor for keyboard zoom (e.g., 1.1 = 10% per step).
+    /// Zoom step multiplier for keyboard shortcuts (1.1 = 10% increase per step).
     pub scale_step: f32,
-    /// Pan step size in pixels per key press.
+    /// Pan distance in pixels per arrow key press.
     pub pan_step: f32,
-    /// Minimum zoom scale (e.g., 0.1 = 10%).
+    /// Minimum zoom level (0.1 = 10% of original size).
     pub min_scale: f32,
-    /// Maximum zoom scale (e.g., 20.0 = 2000%).
+    /// Maximum zoom level (8.0 = 800% of original size).
     pub max_scale: f32,
 }
 

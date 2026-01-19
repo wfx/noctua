@@ -9,19 +9,11 @@ use image::{imageops, DynamicImage, RgbaImage};
 use resvg::tiny_skia::{self, Pixmap};
 use resvg::usvg::{Options, Tree};
 
-use super::ImageHandle;
-use crate::constant::{FULL_ROTATION, MIN_PIXMAP_SIZE, ROTATION_STEP};
-
-/// Accumulated transformations for a vector document.
-#[derive(Debug, Clone, Copy, Default)]
-pub struct VectorTransform {
-    /// Rotation in degrees (0, 90, 180, 270).
-    pub rotation: i16,
-    /// Horizontal flip.
-    pub flip_h: bool,
-    /// Vertical flip.
-    pub flip_v: bool,
-}
+use super::{
+    DocResult, DocumentInfo, FlipDirection, ImageHandle, Renderable, RenderOutput, Rotation,
+    TransformState, Transformable,
+};
+use crate::constant::MIN_PIXMAP_SIZE;
 
 /// Represents a vector document such as SVG.
 pub struct VectorDocument {
@@ -32,9 +24,9 @@ pub struct VectorDocument {
     /// Native height of the SVG (from viewBox or height attribute).
     native_height: u32,
     /// Current render scale (1.0 = native size).
-    current_scale: f32,
+    current_scale: f64,
     /// Accumulated transformations.
-    transform: VectorTransform,
+    transform: TransformState,
     /// Rasterized image at the current scale.
     pub rendered: DynamicImage,
     /// Image handle for display.
@@ -59,12 +51,12 @@ impl VectorDocument {
         let native_width = size.width().ceil() as u32;
         let native_height = size.height().ceil() as u32;
 
-        let transform = VectorTransform::default();
+        let transform = TransformState::default();
 
         // Render at native scale (1.0).
         let (rendered, width, height) =
             render_document(&document, native_width, native_height, 1.0, &transform)?;
-        let handle = super::create_image_handle(&rendered);
+        let handle = super::create_image_handle_from_image(&rendered);
 
         Ok(Self {
             document,
@@ -86,9 +78,10 @@ impl VectorDocument {
 
     /// Re-render the SVG at a new scale, preserving transformations.
     /// Returns true if re-rendering occurred.
-    pub fn render_at_scale(&mut self, scale: f32) -> bool {
+    #[allow(dead_code)]
+    pub fn render_at_scale(&mut self, scale: f64) -> bool {
         // Skip if scale hasn't changed
-        if (self.current_scale - scale).abs() < f32::EPSILON {
+        if (self.current_scale - scale).abs() < f64::EPSILON {
             return false;
         }
 
@@ -104,7 +97,7 @@ impl VectorDocument {
                 self.rendered = rendered;
                 self.width = width;
                 self.height = height;
-                self.handle = super::create_image_handle(&self.rendered);
+                self.handle = super::create_image_handle_from_image(&self.rendered);
                 true
             }
             Err(e) => {
@@ -112,32 +105,6 @@ impl VectorDocument {
                 false
             }
         }
-    }
-
-    /// Rotate 90 degrees clockwise.
-    pub fn rotate_cw(&mut self) {
-        self.transform.rotation =
-            (self.transform.rotation + ROTATION_STEP).rem_euclid(FULL_ROTATION);
-        self.rerender();
-    }
-
-    /// Rotate 90 degrees counter-clockwise.
-    pub fn rotate_ccw(&mut self) {
-        self.transform.rotation =
-            (self.transform.rotation - ROTATION_STEP).rem_euclid(FULL_ROTATION);
-        self.rerender();
-    }
-
-    /// Flip horizontally.
-    pub fn flip_horizontal(&mut self) {
-        self.transform.flip_h = !self.transform.flip_h;
-        self.rerender();
-    }
-
-    /// Flip vertically.
-    pub fn flip_vertical(&mut self) {
-        self.transform.flip_v = !self.transform.flip_v;
-        self.rerender();
     }
 
     /// Re-render with current scale and transform.
@@ -152,7 +119,7 @@ impl VectorDocument {
             self.rendered = rendered;
             self.width = width;
             self.height = height;
-            self.handle = super::create_image_handle(&self.rendered);
+            self.handle = super::create_image_handle_from_image(&self.rendered);
         }
     }
 
@@ -163,21 +130,67 @@ impl VectorDocument {
     }
 }
 
+// ============================================================================
+// Trait Implementations
+// ============================================================================
+
+impl Renderable for VectorDocument {
+    fn render(&mut self, scale: f64) -> DocResult<RenderOutput> {
+        self.render_at_scale(scale);
+        Ok(RenderOutput {
+            handle: self.handle.clone(),
+            width: self.width,
+            height: self.height,
+        })
+    }
+
+    fn info(&self) -> DocumentInfo {
+        DocumentInfo {
+            width: self.native_width,
+            height: self.native_height,
+            format: "SVG".to_string(),
+        }
+    }
+}
+
+impl Transformable for VectorDocument {
+    fn rotate(&mut self, rotation: Rotation) {
+        self.transform.rotation = rotation;
+        self.rerender();
+    }
+
+    fn flip(&mut self, direction: FlipDirection) {
+        match direction {
+            FlipDirection::Horizontal => self.transform.flip_h = !self.transform.flip_h,
+            FlipDirection::Vertical => self.transform.flip_v = !self.transform.flip_v,
+        }
+        self.rerender();
+    }
+
+    fn transform_state(&self) -> TransformState {
+        self.transform
+    }
+}
+
 /// Render the SVG document at a given scale with transformations.
 fn render_document(
     document: &Tree,
     native_width: u32,
     native_height: u32,
-    scale: f32,
-    transform: &VectorTransform,
+    scale: f64,
+    transform: &TransformState,
 ) -> anyhow::Result<(DynamicImage, u32, u32)> {
-    let width = (((native_width as f32) * scale).ceil() as u32).max(MIN_PIXMAP_SIZE);
-    let height = (((native_height as f32) * scale).ceil() as u32).max(MIN_PIXMAP_SIZE);
+    #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+    let width = (((native_width as f64) * scale).ceil() as u32).max(MIN_PIXMAP_SIZE);
+    #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
+    let height = (((native_height as f64) * scale).ceil() as u32).max(MIN_PIXMAP_SIZE);
 
     let mut pixmap =
         Pixmap::new(width, height).ok_or_else(|| anyhow::anyhow!("Failed to create pixmap"))?;
 
-    let ts = tiny_skia::Transform::from_scale(scale, scale);
+    #[allow(clippy::cast_possible_truncation)]
+    let scale_f32 = scale as f32;
+    let ts = tiny_skia::Transform::from_scale(scale_f32, scale_f32);
     resvg::render(document, ts, &mut pixmap.as_mut());
 
     let mut image = pixmap_to_dynamic_image(&pixmap);
@@ -192,10 +205,10 @@ fn render_document(
 
     // Apply rotation
     image = match transform.rotation {
-        90 => DynamicImage::ImageRgba8(imageops::rotate90(&image)),
-        180 => DynamicImage::ImageRgba8(imageops::rotate180(&image)),
-        270 => DynamicImage::ImageRgba8(imageops::rotate270(&image)),
-        _ => image,
+        Rotation::Cw90 => DynamicImage::ImageRgba8(imageops::rotate90(&image)),
+        Rotation::Cw180 => DynamicImage::ImageRgba8(imageops::rotate180(&image)),
+        Rotation::Cw270 => DynamicImage::ImageRgba8(imageops::rotate270(&image)),
+        Rotation::None => image,
     };
 
     let final_width = image.width();

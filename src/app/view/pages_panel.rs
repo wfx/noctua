@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-// src/app/view/panel_pages.rs
+// src/app/view/pages_panel.rs
 //
-// Page thumbnail panel for multi-page documents (PDF, multi-page TIFF).
+// Page navigation panel for multi-page documents (PDF, multi-page TIFF, etc.).
 
 use cosmic::iced::{Alignment, Length};
 use cosmic::widget::{button, column, scrollable, text};
@@ -12,9 +12,9 @@ use crate::app::{AppMessage, AppModel};
 use crate::constant::THUMBNAIL_MAX_WIDTH;
 use crate::fl;
 
-/// Content for the page navigation panel (COSMIC nav_bar).
+/// Build the page navigation panel view.
 /// Returns None if the current document doesn't support multiple pages.
-pub fn pages_panel(model: &AppModel) -> Option<Element<'static, AppMessage>> {
+pub fn view(model: &AppModel) -> Option<Element<'static, AppMessage>> {
     let doc = model.document.as_ref()?;
 
     // Only show for multi-page documents.
@@ -26,7 +26,7 @@ pub fn pages_panel(model: &AppModel) -> Option<Element<'static, AppMessage>> {
     let loaded = doc.thumbnails_loaded();
     let current_page = doc.current_page()?;
 
-    let mut content = column::with_capacity(page_count as usize + 1)
+    let mut content = column::with_capacity(page_count + 1)
         .spacing(12)
         .padding([12, 8])
         .align_x(Alignment::Center)

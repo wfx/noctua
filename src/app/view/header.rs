@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // src/app/view/header.rs
 //
-// Header bar buttons (navigation, rotation, flip).
+// Header bar content (navigation, rotation, flip).
 
-use cosmic::iced::{Alignment, Length};
+use cosmic::iced::Length;
 use cosmic::widget::{button, horizontal_space, icon, row};
 use cosmic::Element;
 
@@ -11,8 +11,8 @@ use crate::app::message::AppMessage;
 use crate::app::model::AppModel;
 use crate::app::ContextPage;
 
-/// Build the left side of the header bar.
-pub fn header_start(model: &AppModel) -> Vec<Element<'_, AppMessage>> {
+/// Build the start (left) side of the header bar.
+pub fn start(model: &AppModel) -> Vec<Element<'_, AppMessage>> {
     let has_doc = model.document.is_some();
 
     // Left: Nav toggle + Navigation
@@ -55,8 +55,8 @@ pub fn header_start(model: &AppModel) -> Vec<Element<'_, AppMessage>> {
     ]
 }
 
-/// Build the right side of the header bar.
-pub fn header_end(_model: &AppModel) -> Vec<Element<'_, AppMessage>> {
+/// Build the end (right) side of the header bar.
+pub fn end(_model: &AppModel) -> Vec<Element<'_, AppMessage>> {
     vec![
         // Info panel toggle
         button::icon(icon::from_name("dialog-information-symbolic"))

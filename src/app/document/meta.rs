@@ -163,13 +163,11 @@ fn extract_exif_from_bytes(data: &[u8]) -> Option<ExifMeta> {
     if let Some(field) = exif.get_field(Tag::FNumber, In::PRIMARY) {
         meta.f_number = Some(format!("f/{}", field.display_value()));
     }
-    if let Some(field) = exif.get_field(Tag::PhotographicSensitivity, In::PRIMARY) {
-        if let Value::Short(ref vals) = field.value {
-            if let Some(&iso) = vals.first() {
+    if let Some(field) = exif.get_field(Tag::PhotographicSensitivity, In::PRIMARY)
+        && let Value::Short(ref vals) = field.value
+            && let Some(&iso) = vals.first() {
                 meta.iso = Some(iso as u32);
             }
-        }
-    }
     if let Some(field) = exif.get_field(Tag::FocalLength, In::PRIMARY) {
         meta.focal_length = Some(field.display_value().to_string());
     }

@@ -7,7 +7,7 @@ mod canvas;
 pub mod footer;
 pub mod header;
 mod image_viewer;
-pub mod panel_pages;
+pub mod pages_panel;
 pub mod panels;
 
 use cosmic::iced::Length;
@@ -31,7 +31,7 @@ pub fn nav_bar(model: &AppModel) -> Option<Element<'_, Action<AppMessage>>> {
         return None;
     }
 
-    panel_pages::pages_panel(model).map(|panel| {
+    pages_panel::view(model).map(|panel| {
         container(panel.map(Action::App))
             .width(Length::Shrink)
             .height(Length::Fill)

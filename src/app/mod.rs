@@ -166,11 +166,11 @@ impl cosmic::Application for Noctua {
     }
 
     fn header_start(&self) -> Vec<Element<'_, Self::Message>> {
-        view::header::header_start(&self.model)
+        view::header::start(&self.model)
     }
 
     fn header_end(&self) -> Vec<Element<'_, Self::Message>> {
-        view::header::header_end(&self.model)
+        view::header::end(&self.model)
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
@@ -182,7 +182,7 @@ impl cosmic::Application for Noctua {
             return None;
         }
         Some(context_drawer::context_drawer(
-            view::panels::properties_panel(&self.model),
+            view::panels::view(&self.model),
             AppMessage::ToggleContextPage(ContextPage::Properties),
         ))
     }
@@ -307,7 +307,7 @@ fn thumbnail_refresh_subscription(app: &Noctua) -> Subscription<AppMessage> {
         .model
         .document
         .as_ref()
-        .map_or(false, |doc| doc.is_multi_page() && !doc.thumbnails_ready());
+        .is_some_and(|doc| doc.is_multi_page() && !doc.thumbnails_ready());
 
     if needs_refresh {
         time::every(Duration::from_millis(100)).map(|_| AppMessage::RefreshView)
